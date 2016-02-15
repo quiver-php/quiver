@@ -5,7 +5,7 @@ The Quiver PHP framework.
 
 ### 01. Installation
 
-Include Quiver as a dependancy for your project using [Composer](https://getcomposer.org/). In this example setup, our project specific code is going to sit in an "app" folder, and the composer setup file should look something like this.
+Include Quiver as a dependancy for your project using [Composer](https://getcomposer.org/). In this example, our project specific code is going to sit in an "app" folder, and the composer setup file should look something like this.
 
 ```json
 {

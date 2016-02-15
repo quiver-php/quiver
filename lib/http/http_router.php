@@ -95,15 +95,6 @@ class http_router
 					$parameters_query_string = parse_url($http_request->get_uri(), PHP_URL_QUERY);
 					parse_str($parameters_query_string, $parameters_query);
 					
-					/*
-					var_dump($route_selected);
-					var_dump($parameters_path);
-					var_dump($parameters_query);
-					var_dump($controller_name);
-					var_dump($controller_method);
-					die();
-					*/
-					
 					// Get the controller name and the controller method from the selected route
 					$controller_name = $route_selected->get_controller();
 					$controller_method = $route_selected->get_controller_method();

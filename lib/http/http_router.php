@@ -70,12 +70,12 @@ class http_router
 				if ($root_directory)
 				{
 					// Remove the root directory from HTTP request URI
-					$http_request->set_uri( str_replace($root_directory, '', urldecode( $http_request->get_uri() ) ) );
+					$http_request->set_uri( str_replace( $root_directory, '', urldecode( $http_request->get_uri_canonical() ) ) );
 				}
 				
 				// Check if there is a URI match, and store all the path parameters
 				$route_request_match = preg_match( $route->get_uri_pattern(), $http_request->get_uri_canonical(), $parameters_path );
-				
+
 				// If the HTTP request matches an existing HTTP route...
 				if ($route_request_match)
 				{
@@ -94,7 +94,7 @@ class http_router
 					// Store the query parameters
 					$parameters_query_string = parse_url($http_request->get_uri(), PHP_URL_QUERY);
 					parse_str($parameters_query_string, $parameters_query);
-					
+
 					// Get the controller name and the controller method from the selected route
 					$controller_name = $route_selected->get_controller();
 					$controller_method = $route_selected->get_controller_method();

@@ -17,8 +17,8 @@ class app
 	
 	public function __construct($root_directory = '', array $routes)
 	{
-		// Set the default project directory
-		$this->root_directory = $root_directory;
+		// Set the default project directory without any trailing slashes
+		$this->root_directory = trim($root_directory, '/');
 		
 		// Set the default timezone
 		$this->set_timezone();

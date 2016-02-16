@@ -23,9 +23,9 @@ Include Quiver as a dependancy for your project using [Composer](https://getcomp
 }
 ```
 
-### 02. Configuration
+### 02. Pretty URL Configuration
 
-Create an **.htaccess** file in the root directory of your project to ensure that all requests go through Quiver.
+Create an **.htaccess** file in the root directory of your project, and enable the rewrite module in Apache to ensure that all requests go through Quiver, and that you'll have pretty URL's. _However_, Quiver can be used without an .htaccess file.
 
 ```
 RewriteEngine On
@@ -36,6 +36,10 @@ RewriteRule ^ index.php [QSA]
 ### 03. Initialize Quiver
 
 Create an **index.php** file in the root directory of your project, and initialize your project using Quiver. In this example, we are adding a route that will execute the hello_world function in the example class.
+
+#### With .htaccess
+
+Handles requests like: http://example.com/, http://example.com/company/
 
 ```php
 <?php
@@ -52,6 +56,27 @@ $routes = array(
 
 // Initialize your app
 $app = new quiver\app('', $routes);
+```
+
+#### Without .htaccess
+
+Handles requests like: http://example.com/, http://example.com/index.php/company/
+
+```php
+<?php
+
+// Include the composer autoloader
+require '/vendor/autoload.php';
+
+// Define your routes
+$routes = array(
+
+	new quiver\http\http_route('GET', '', 'app\\example', 'hello_world')
+
+);
+
+// Initialize your app with index.php defined as your root, which will remove it from all incoming requests
+$app = new quiver\app('index.php', $routes);
 ```
 
 ### 04. Example

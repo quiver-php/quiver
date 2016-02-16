@@ -25,7 +25,7 @@ Include Quiver as a dependancy for your project using [Composer](https://getcomp
 
 ### 02. Pretty URL Configuration
 
-Create an **.htaccess** file in the root directory of your project, and enable the rewrite module in Apache to ensure that all requests go through Quiver, and that you'll have pretty URL's. _However_, Quiver can be used without an .htaccess file.
+Create an **.htaccess** file in the root directory of your project, and enable the rewrite module in Apache to ensure that all requests go through Quiver, and that you'll have pretty URL's. _However_, Quiver can be used without .htaccess and mod_rewrite.
 
 ```
 RewriteEngine On

@@ -81,7 +81,7 @@ $app = new quiver\app('index.php', $routes);
 
 ### 04. Example
 
-Lastly, we need to create a controller to handle the request defined by our route. Create an **index.php** file in your app directory. Our example class extends the Quiver controller, and simply returns "Hello World!".
+Lastly, we need to create a controller to handle the potential request as defined by the route we set up. Create an **index.php** file in your app directory. In it, we'll have our example class which extends the Quiver controller, and simply returns the response, "Hello World!".
 
 ```php
 <?php

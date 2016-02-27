@@ -75,13 +75,13 @@ $routes = array(
 
 );
 
-// Initialize your app with index.php defined as your root, which will remove it from all incoming requests
+// Initialize your app with index.php defined as your base URL, which will remove it from all incoming requests
 $app = new quiver\app('index.php', $routes);
 ```
 
 ### 04. Example
 
-Lastly, create an **index.php** file in your app directory. Our example project simply returns "Hello World!".
+Lastly, we need to create a controller to handle the request defined by our route. Create an **index.php** file in your app directory. Our example class extends the Quiver controller, and simply returns "Hello World!".
 
 ```php
 <?php

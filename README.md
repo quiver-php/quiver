@@ -30,7 +30,9 @@ Create an **.htaccess** file in the root directory of your project, and enable t
 ```
 RewriteEngine On
 
-RewriteRule ^ index.php [QSA]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [L]
 ```
 
 ### 03. Initialize Quiver
@@ -81,7 +83,7 @@ $app = new quiver\app('index.php', $routes);
 
 ### 04. Example
 
-Lastly, we need to create a controller to handle the potential request as defined by the route we set up. Create an **index.php** file in your app directory. In it, we'll have our example class which extends the Quiver controller, and simply returns the response, "Hello World!".
+Lastly, we need to create a controller to handle the potential request as defined by the route we set up. Create an **example.php** file in your app directory. In it, we'll have our example class which extends the Quiver controller, and simply returns the response, "Hello World!".
 
 ```php
 <?php

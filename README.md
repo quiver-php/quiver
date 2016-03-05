@@ -41,7 +41,7 @@ Create an **index.php** file in the root directory of your project, and initiali
 
 #### With .htaccess
 
-Handles requests like: http://example.com/, http://example.com/company/
+Handles requests like: http://example.com/
 
 ```php
 <?php
@@ -62,7 +62,7 @@ $app = new quiver\app('', $routes);
 
 #### Without .htaccess
 
-Handles requests like: http://example.com/, http://example.com/index.php/company/
+Handles requests like: http://example.com/
 
 ```php
 <?php

@@ -257,7 +257,7 @@ class html_document
 		}
 	}
 
-	public function render($block_name = '', $render = true)
+	public function render($block_name = '')
 	{
 		$html = '';
 		
@@ -300,14 +300,7 @@ class html_document
 			$html = $this->get_block_content($block_name);
 		}
 		
-		if ($render)
-		{
-			echo $html;
-		}
-		else
-		{
-			return $html;
-		}
+		return $html;
 	}
 }
 

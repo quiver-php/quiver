@@ -82,11 +82,10 @@ class http_request extends http_message
 		return $uri_canonical;
 	}
 	
-	// public function fetch($uri_root = '')
 	public function fetch()
 	{	
 		// Get and set the headers
-		foreach ( apache_request_headers() as $name => $value )
+		foreach ( $this->get_request_headers() as $name => $value )
 		{
 			$this->add_header($name, $value);
 		}
@@ -99,6 +98,48 @@ class http_request extends http_message
 		
 		// Get and set the request URI
 		$this->set_uri( $_SERVER['REQUEST_URI'] );
+	}
+	
+	private function get_request_headers()
+	{
+		$headers = array();
+
+		$headers_to_include = array(
+			'CONTENT_TYPE',
+			'CONTENT_LENGTH'
+		);
+		
+		$headers_to_uppercase = array(
+			'TE',
+			'DNT'
+		);
+		
+		foreach ($_SERVER as $name => $value)
+		{
+			$http_prefix = strpos($name, 'HTTP_');
+			
+			// Example: HTTP_ACCEPT_ENCODING -> Accept-Encoding
+			if ( $http_prefix !== false || in_array($name, $headers_to_include) )
+			{
+				$name = str_replace('_', '-', $name);
+				
+				// Remove HTTP prefix, if there is one
+				if ($http_prefix !== false)
+				{
+					$name = substr($name, 5);
+				}
+				
+				// Apply appropriate casing
+				if ( !in_array($name, $headers_to_uppercase) )
+				{
+					$name = ucwords( strtolower($name), '-' );
+				}
+				
+				$headers[$name] = $value;
+			}
+		}
+		
+		return $headers;
 	}
 }
 

@@ -11,7 +11,7 @@ Include Quiver as a dependancy for your project using [Composer](https://getcomp
 {
 	"require":
 	{
-		"quiver/quiver": "v0.1.0"
+		"quiver/quiver": "v1.0.0"
 	},
 	"autoload":
 	{
@@ -47,7 +47,7 @@ Handles requests like: http://example.com/
 <?php
 
 // Include the composer autoloader
-require '/vendor/autoload.php';
+require 'vendor/autoload.php';
 
 // Define your routes
 $routes = array(
@@ -68,7 +68,7 @@ Handles requests like: http://example.com/
 <?php
 
 // Include the composer autoloader
-require '/vendor/autoload.php';
+require 'vendor/autoload.php';
 
 // Define your routes
 $routes = array(

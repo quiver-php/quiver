@@ -20,20 +20,10 @@ class http_message
 		return $this->headers;
 	}
 	
-	public function add_header($name, $value)
+	public function add_header(string $name, string $value)
 	{
-		if ( 
-			is_string($name) && !empty($name) &&
-			is_string($value) && !empty($value)
-		)
-		{
-			// Store the HTTP header in the list, existing headers of the same field name are overwritten
-			$this->headers[$name] = $value;
-		}
-		else
-		{
-			throw new \Exception('Arguments passed to http_message::add_header() must be a string and cannot be empty');
-		}
+		// Store the HTTP header in the list, existing headers of the same field name are overwritten
+		$this->headers[$name] = $value;
 	}
 	
 	public function get_body()
@@ -41,16 +31,9 @@ class http_message
 		return $this->body;
 	}
 	
-	public function set_body($body)
+	public function set_body(string $body)
 	{
-		if ( is_string($body) )
-		{
-			$this->body = $body;
-		}
-		else
-		{
-			throw new \Exception('Argument passed to http_message::set_body() must be a string');			 
-		}		
+		$this->body = $body;
 	}
 }
 

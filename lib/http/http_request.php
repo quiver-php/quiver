@@ -28,7 +28,7 @@ class http_request extends http_message
 	private $method = 'GET';
 	private $uri = '';
 	
-	public function __construct($method = 'GET', $uri = '')
+	public function __construct(string $method = 'GET', string $uri = '')
 	{
 		$this->set_method($method);
 		$this->set_uri($uri);
@@ -39,7 +39,7 @@ class http_request extends http_message
 		return $this->method;
 	}
 	
-	public function set_method($method = 'GET')
+	public function set_method(string $method = 'GET')
 	{
 		if ( array_key_exists($method, $this->methods) )
 		{
@@ -56,16 +56,9 @@ class http_request extends http_message
 		return $this->uri;
 	}
 	
-	public function set_uri($uri)
+	public function set_uri(string $uri)
 	{
-		if ( is_string($uri) )
-		{
-			$this->uri = $uri;
-		}
-		else
-		{
-			throw new \Exception('Argument passed to http_request::set_uri() must be a string');			 
-		}
+		$this->uri = $uri;
 	}
 	
 	public function get_uri_canonical()

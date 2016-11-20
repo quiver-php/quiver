@@ -11,7 +11,7 @@ Include Quiver as a dependancy for your project using [Composer](https://getcomp
 {
 	"require":
 	{
-		"quiver/quiver": "v1.0.0"
+		"quiver/quiver": "dev-master"
 	},
 	"autoload":
 	{

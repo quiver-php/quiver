@@ -17,5 +17,3 @@ class model
 		// Do something
 	}
 }
-
-?>

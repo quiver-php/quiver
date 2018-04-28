@@ -303,5 +303,3 @@ class html_document
 		return $html;
 	}
 }
-
-?>

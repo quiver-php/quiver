@@ -17,5 +17,3 @@ class html_forms
 		return $html;
 	}
 }
-
-?>

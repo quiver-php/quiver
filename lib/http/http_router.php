@@ -123,5 +123,3 @@ class http_router
 		return $http_response;
 	}
 }
-
-?>

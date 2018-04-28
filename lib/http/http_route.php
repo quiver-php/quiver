@@ -69,5 +69,3 @@ class http_route extends http_request
 		return $uri_match;
 	}
 }
-
-?>

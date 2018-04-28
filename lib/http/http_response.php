@@ -115,5 +115,3 @@ class http_response extends http_message
 		echo $this->get_body();
 	}
 }
-
-?>

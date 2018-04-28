@@ -19,7 +19,7 @@ class html_document
 	private $script = array();
 	private $blocks = array();
 	
-	public function __construct(string $title)
+	public function __construct(string $title = '')
 	{
 		$this->set_title($title);
 	}

@@ -105,7 +105,7 @@ class http_router
 					// Run the controller method and get the HTTP response, or null in case of failure
 					$http_response = $controller->$controller_method();
 					
-					if ( is_null($http_response) )
+					if ($http_response === null)
 					{
 						$http_response = new http_response(500);
 					}
@@ -115,7 +115,7 @@ class http_router
 			}
 		}
 		
-		if ( is_null($http_response) )
+		if ($http_response === null)
 		{
 			$http_response = new http_response(404);
 		}

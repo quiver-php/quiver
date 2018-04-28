@@ -69,7 +69,7 @@ class http_response extends http_message
 	
 	private $status_code = 200;
 	
-	public function __construct($status_code = 200, $body = '')
+	public function __construct(int $status_code = 200, string $body = '')
 	{
 		$this->set_status_code($status_code);
 		$this->set_body($body);
@@ -80,7 +80,7 @@ class http_response extends http_message
 		return $this->status_code;
 	}
 	
-	public function set_status_code($status_code = 200)
+	public function set_status_code(int $status_code = 200)
 	{
 		if ( array_key_exists($status_code, $this->status_code_definitions) )
 		{

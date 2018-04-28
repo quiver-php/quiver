@@ -50,7 +50,7 @@ class http_router
 		return $exists;
 	}
 	
-	public function service(http_request $http_request, $root_directory)
+	public function service(http_request $http_request, string $root_directory)
 	{
 		$http_response = null;
 	

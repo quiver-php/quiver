@@ -48,10 +48,10 @@ class html_document
 	{
 		$html = '';
 		
-		for ($i = 0; $i < count($this->meta); $i++)
+		foreach ($this->meta as $meta)
 		{
 			$html .= '
-				<meta name="' . $this->meta[$i]['name'] . '" content="' . $this->meta[$i]['content'] . '" />
+				<meta name="' . $meta['name'] . '" content="' . $meta['content'] . '" />
 			';
 		}
 		
@@ -74,10 +74,10 @@ class html_document
 	{
 		$html = '';
 		
-		for ($i = 0; $i < count($this->css); $i++)
+		foreach ($this->css as $css)
 		{
 			$html .= '
-				<link href="' . $this->css[$i]['href'] . '" media="' . $this->css[$i]['media'] . '" rel="stylesheet" type="text/css" />
+				<link href="' . $css['href'] . '" media="' . $css['media'] . '" rel="stylesheet" type="text/css" />
 			';
 		}
 		
@@ -100,10 +100,10 @@ class html_document
 	{
 		$html = '';
 		
-		for ($i = 0; $i < count($this->javascript); $i++)
+		foreach ($this->javascript as $javascript)
 		{
 			$html .= '
-				<script src="' . $this->javascript[$i]['src'] . '" type="text/javascript"></script>
+				<script src="' . $javascript['src'] . '" type="text/javascript"></script>
 			';
 		}
 		
@@ -127,9 +127,9 @@ class html_document
 				<style type="text/css">
 			';
 			
-			for ($i = 0; $i < count($this->style); $i++)
+			foreach ($this->style as $style)
 			{
-				$html .= $this->style[$i];
+				$html .= $style;
 			}
 			
 			$html .= '
@@ -155,9 +155,9 @@ class html_document
 				<script type="text/javascript">
 			';
 			
-			for ($i = 0; $i < count($this->script); $i++)
+			foreach ($this->script as $script)
 			{
-				$html .= $this->script[$i];
+				$html .= $script;
 			}
 			
 			$html .= '
@@ -287,9 +287,7 @@ class html_document
 				</head>
 				
 				<body>
-				
 				' . $this->get_block_content('', 'body') . '
-				
 				</body>			
 				
 				</html>

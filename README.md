@@ -1,31 +1,19 @@
 # Quiver
 The Quiver PHP framework.
 
-## Getting Started
+## Installation
 
-### 01. Installation
+Install Quiver with [Composer](https://getcomposer.org/). Quiver requires **PHP 7.0** or higher. 
 
-Include Quiver as a dependancy for your project using [Composer](https://getcomposer.org/). In this example, our project specific code is going to sit in an "app" folder, and the composer setup file should look something like this.
-
-```json
-{
-	"require":
-	{
-		"quiver/quiver": "v1.0.0"
-	},
-	"autoload":
-	{
-		"psr-4":
-		{
-			"app\\": "app/"
-		}
-	}
-}
+```
+$ composer require quiver/quiver
 ```
 
-### 02. Pretty URL Configuration
+## Web server configuration
 
-Create an **.htaccess** file in the root directory of your project, and enable the rewrite module in Apache to ensure that all requests go through Quiver, and that you'll have pretty URL's. _However_, Quiver can be used without .htaccess and mod_rewrite.
+Whatever web server you use, make sure you route all requests to your project's front controller, which will initialize Quiver.
+
+Here's a basic example to get you going using Apache. Create an `.htaccess` file in the root directory of your project with the following contents.
 
 ```
 RewriteEngine On
@@ -35,13 +23,30 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php [L]
 ```
 
-### 03. Initialize Quiver
+Enable the rewrite module, and set `AllowOverride All` so that your `.htaccess` file is not ignored.
 
-Create an **index.php** file in the root directory of your project, and initialize your project using Quiver. In this example, we are adding a route that will execute the hello_world function in the example class.
+## Creating your first project
 
-#### With .htaccess
+### Set up the autoloader
 
-Handles requests like: http://example.com/
+In this example, our project-specific code is going to sit in an "app" folder, and your `composer.json` file should look something like this.
+
+```json
+{
+    "require": {
+        "quiver/quiver": "^0.1.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "app\\": "app/"
+        }
+    }
+}
+```
+
+### Initialize Quiver
+
+Create an `index.php` file in the root directory of your project, which will be your front controller that initializes Quiver. In this example, we are adding a route `/hello/` that will execute the `hello_world` function in the example controller class we are going to create.
 
 ```php
 <?php
@@ -49,48 +54,32 @@ Handles requests like: http://example.com/
 // Include the composer autoloader
 require 'vendor/autoload.php';
 
+use quiver\http\http_route;
+use quiver\app;
+
 // Define your routes
 $routes = array(
 
-	new quiver\http\http_route('GET', '', 'app\\example', 'hello_world')
+	new http_route('GET', '/hello/', 'app\example', 'hello_world')
 
 );
 
 // Initialize your app
-$app = new quiver\app('', $routes);
+$app = new app('', $routes);
 ```
 
-#### Without .htaccess
+### Create the controller
 
-Handles requests like: http://example.com/
-
-```php
-<?php
-
-// Include the composer autoloader
-require 'vendor/autoload.php';
-
-// Define your routes
-$routes = array(
-
-	new quiver\http\http_route('GET', '', 'app\\example', 'hello_world')
-
-);
-
-// Initialize your app with index.php defined as your base URL, which will remove it from all incoming requests
-$app = new quiver\app('index.php', $routes);
-```
-
-### 04. Example
-
-Lastly, we need to create a controller to handle the potential request as defined by the route we set up. Create an **example.php** file in your app directory. In it, we'll have our example class which extends the Quiver controller, and simply returns the response, "Hello World!".
+Lastly, we need to create a controller to handle the request as defined by the route we set up in our front controller. Create an `example.php` file in your app directory. In it, we'll have our example class which extends the Quiver controller, that simply returns the response, "Hello World!".
 
 ```php
 <?php
 
 namespace app;
 
-class example extends \quiver\controller
+use quiver\controller;
+
+class example extends controller
 {
 	public function hello_world()
 	{
@@ -100,3 +89,5 @@ class example extends \quiver\controller
 	}
 }
 ```
+
+Congratulations! You can now visit `http://localhost:8080/hello/` (depending on your web server configuration).

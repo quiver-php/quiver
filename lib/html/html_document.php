@@ -19,7 +19,7 @@ class html_document
 	private $script = array();
 	private $blocks = array();
 	
-	public function __construct($title)
+	public function __construct(string $title)
 	{
 		$this->set_title($title);
 	}
@@ -29,7 +29,7 @@ class html_document
 		return $this->lang;
 	}
 	
-	public function set_lang($lang = 'en')
+	public function set_lang(string $lang = 'en')
 	{
 		$this->lang = $lang;
 	}
@@ -39,7 +39,7 @@ class html_document
 		return $this->title;
 	}
 	
-	public function set_title($title)
+	public function set_title(string $title)
 	{
 		$this->title = $title;
 	}
@@ -48,17 +48,17 @@ class html_document
 	{
 		$html = '';
 		
-		for ($i = 0; $i < count($this->meta); $i++)
+		foreach ($this->meta as $meta)
 		{
 			$html .= '
-				<meta name="' . $this->meta[$i]['name'] . '" content="' . $this->meta[$i]['content'] . '" />
+				<meta name="' . $meta['name'] . '" content="' . $meta['content'] . '">
 			';
 		}
 		
 		return $html;
 	}
 	
-	public function add_meta($name, $content)
+	public function add_meta(string $name, string $content)
 	{
 		$meta = array(
 			
@@ -74,17 +74,17 @@ class html_document
 	{
 		$html = '';
 		
-		for ($i = 0; $i < count($this->css); $i++)
+		foreach ($this->css as $css)
 		{
 			$html .= '
-				<link href="' . $this->css[$i]['href'] . '" media="' . $this->css[$i]['media'] . '" rel="stylesheet" type="text/css" />
+				<link href="' . $css['href'] . '" media="' . $css['media'] . '" rel="stylesheet" type="text/css">
 			';
 		}
 		
 		return $html;
 	}
 	
-	public function add_css($href, $media = 'all')
+	public function add_css(string $href, string $media = 'all')
 	{
 		$css = array(
 		
@@ -100,17 +100,17 @@ class html_document
 	{
 		$html = '';
 		
-		for ($i = 0; $i < count($this->javascript); $i++)
+		foreach ($this->javascript as $javascript)
 		{
 			$html .= '
-				<script src="' . $this->javascript[$i]['src'] . '" type="text/javascript"></script>
+				<script src="' . $javascript['src'] . '" type="text/javascript"></script>
 			';
 		}
 		
 		return $html;
 	}
 	
-	public function add_javascript($src)
+	public function add_javascript(string $src)
 	{
 		$javascript = array('src' => $src);
 		
@@ -127,9 +127,9 @@ class html_document
 				<style type="text/css">
 			';
 			
-			for ($i = 0; $i < count($this->style); $i++)
+			foreach ($this->style as $style)
 			{
-				$html .= $this->style[$i];
+				$html .= $style;
 			}
 			
 			$html .= '
@@ -140,7 +140,7 @@ class html_document
 		return $html;
 	}
 	
-	public function add_style($style)
+	public function add_style(string $style)
 	{		
 		array_push($this->style, $style);
 	}
@@ -155,9 +155,9 @@ class html_document
 				<script type="text/javascript">
 			';
 			
-			for ($i = 0; $i < count($this->script); $i++)
+			foreach ($this->script as $script)
 			{
-				$html .= $this->script[$i];
+				$html .= $script;
 			}
 			
 			$html .= '
@@ -168,12 +168,12 @@ class html_document
 		return $html;
 	}
 	
-	public function add_script($script)
+	public function add_script(string $script)
 	{		
 		array_push($this->script, $script);
 	}
 	
-	public function add_block($block_name, $parent_element = 'body')
+	public function add_block(string $block_name, string $parent_element = 'body')
 	{
 		if ( !$this->block_exists($block_name) )
 		{
@@ -194,7 +194,7 @@ class html_document
 		}
 	}
 	
-	public function get_block_content($block_name = '', $parent_element = 'body')
+	public function get_block_content(string $block_name = '', string $parent_element = 'body')
 	{
 		$html = '';
 		
@@ -207,7 +207,6 @@ class html_document
 				{
 					$html .= $block['content'];	
 				}
-				
 			}
 		}
 		// Return content of a specific block regardless of parent element
@@ -226,14 +225,14 @@ class html_document
 		return $html;
 	}
 	
-	private function block_exists($block_name)
+	private function block_exists(string $block_name)
 	{
 		$exists = array_key_exists($block_name, $this->blocks);
 		
 		return $exists;
 	}
 	
-	public function add_content($content, $block_name)
+	public function add_content(string $content, string $block_name)
 	{
 		if ( $this->block_exists($block_name) )
 		{
@@ -245,7 +244,7 @@ class html_document
 		}
 	}
 	
-	public function replace_content($content, $block_name)
+	public function replace_content(string $content, string $block_name)
 	{
 		if ( $this->block_exists($block_name) )
 		{
@@ -257,7 +256,7 @@ class html_document
 		}
 	}
 
-	public function render($block_name = '')
+	public function render(string $block_name = '')
 	{
 		$html = '';
 		
@@ -269,7 +268,7 @@ class html_document
 				<html lang="' . $this->get_lang() . '">
 				
 				<head>					
-					<meta charset="utf-8" />
+					<meta charset="utf-8">
 
 					<title>' . $this->get_title() . '</title>
 					
@@ -287,9 +286,7 @@ class html_document
 				</head>
 				
 				<body>
-				
 				' . $this->get_block_content('', 'body') . '
-				
 				</body>			
 				
 				</html>
@@ -303,5 +300,3 @@ class html_document
 		return $html;
 	}
 }
-
-?>

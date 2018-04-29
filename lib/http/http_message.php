@@ -36,5 +36,3 @@ class http_message
 		$this->body = $body;
 	}
 }
-
-?>

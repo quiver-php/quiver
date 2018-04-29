@@ -135,5 +135,3 @@ class http_request extends http_message
 		return $headers;
 	}
 }
-
-?>

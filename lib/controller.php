@@ -26,5 +26,3 @@ class controller
 		$this->parameters_query = $parameters_query;
 	}
 }
-
-?>

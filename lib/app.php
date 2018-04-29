@@ -15,7 +15,7 @@ class app
 {
 	private $root_directory = '';
 	
-	public function __construct($root_directory = '', array $routes)
+	public function __construct(string $root_directory = '', array $routes)
 	{
 		// Set the default project directory without any trailing slashes
 		$this->root_directory = trim($root_directory, '/');
@@ -48,7 +48,7 @@ class app
 		return date_default_timezone_get();
 	}
 	
-	public function set_timezone($timezone_identifier = 'UTC')
+	public function set_timezone(string $timezone_identifier = 'UTC')
 	{
 		// Check if the timezone identifier supplied is valid
 		if ( in_array( $timezone_identifier, timezone_identifiers_list() ) )
@@ -61,5 +61,3 @@ class app
 		}
 	}
 }
-
-?>

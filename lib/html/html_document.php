@@ -51,7 +51,7 @@ class html_document
 		foreach ($this->meta as $meta)
 		{
 			$html .= '
-				<meta name="' . $meta['name'] . '" content="' . $meta['content'] . '" />
+				<meta name="' . $meta['name'] . '" content="' . $meta['content'] . '">
 			';
 		}
 		
@@ -77,7 +77,7 @@ class html_document
 		foreach ($this->css as $css)
 		{
 			$html .= '
-				<link href="' . $css['href'] . '" media="' . $css['media'] . '" rel="stylesheet" type="text/css" />
+				<link href="' . $css['href'] . '" media="' . $css['media'] . '" rel="stylesheet" type="text/css">
 			';
 		}
 		
@@ -207,7 +207,6 @@ class html_document
 				{
 					$html .= $block['content'];	
 				}
-				
 			}
 		}
 		// Return content of a specific block regardless of parent element
@@ -269,7 +268,7 @@ class html_document
 				<html lang="' . $this->get_lang() . '">
 				
 				<head>					
-					<meta charset="utf-8" />
+					<meta charset="utf-8">
 
 					<title>' . $this->get_title() . '</title>
 					

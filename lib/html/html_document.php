@@ -77,19 +77,20 @@ class html_document
 		foreach ($this->css as $css)
 		{
 			$html .= '
-				<link href="' . $css['href'] . '" media="' . $css['media'] . '" rel="stylesheet" type="text/css">
+				<link href="' . $css['href'] . '" media="' . $css['media'] . '" rel="' . $css['rel'] . '" type="text/css">
 			';
 		}
 		
 		return $html;
 	}
 	
-	public function add_css(string $href, string $media = 'all')
+	public function add_css(string $href, string $media = 'all', string $rel = 'stylesheet')
 	{
 		$css = array(
 		
 			'href' => $href,
-			'media' => $media
+			'media' => $media,
+			'rel' => $rel
 			
 		);
 		

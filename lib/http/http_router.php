@@ -14,7 +14,18 @@ use quiver\http\http_route;
 
 class http_router
 {
+	private $root_directory = '';
 	private $routes = array();
+
+	public function get_root_directory()
+	{
+		return $this->root_directory;
+	}
+
+	public function set_root_directory(string $root_directory = '')
+	{
+		$this->root_directory = trim($root_directory, '/');
+	}
 	
 	public function add_route(http_route $http_route)
 	{
@@ -50,7 +61,7 @@ class http_router
 		return $exists;
 	}
 	
-	public function service(http_request $http_request, string $root_directory)
+	public function service(http_request $http_request)
 	{
 		$http_response = null;
 	
@@ -67,10 +78,10 @@ class http_router
 			// Check if there is a method match
 			if ( $route->get_method() == $http_request->get_method() )
 			{
-				if ($root_directory)
+				if ($this->root_directory)
 				{
 					// Remove the root directory from HTTP request URI
-					$http_request->set_uri( str_replace( $root_directory, '', urldecode( $http_request->get_uri_canonical() ) ) );
+					$http_request->set_uri( str_replace( $this->root_directory, '', urldecode( $http_request->get_uri_canonical() ) ) );
 				}
 				
 				// Check if there is a URI match, and store all the path parameters

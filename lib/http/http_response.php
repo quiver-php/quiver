@@ -99,12 +99,13 @@ class http_response extends http_message
 	
 	public function send()
 	{
-		// $this->add_header( self::HTTP_VERSION . ' ' . $this->get_status_code() . ' ' . $this->get_status_code_definition() );		
 		header( self::HTTP_VERSION . ' ' . $this->get_status_code() . ' ' . $this->get_status_code_definition() );
+
+		$body = $this->get_body();
 		
-		if ( !empty( $this->get_body() ) )
+		if ( !empty($body) )
 		{
-			$this->add_header( 'Content-Length', (string)strlen( $this->get_body() ) );
+			$this->add_header( 'Content-Length', (string)strlen($body) );
 		}
 		
 		foreach ( $this->get_headers() as $header_name => $header_value )
@@ -112,6 +113,6 @@ class http_response extends http_message
 			header($header_name . ': ' . $header_value);
 		}
 		
-		echo $this->get_body();
+		echo $body;
 	}
 }

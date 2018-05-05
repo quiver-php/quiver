@@ -34,7 +34,7 @@ In this example, our project-specific code is going to sit in an "app" folder, a
 ```json
 {
     "require": {
-        "quiver/quiver": "^0.1.2"
+        "quiver/quiver": "^0.2.0"
     },
     "autoload": {
         "psr-4": {
@@ -65,7 +65,7 @@ $routes = array(
 );
 
 // Initialize your app
-$app = new app('', $routes);
+$app = new app($routes);
 ```
 
 ### Create the controller

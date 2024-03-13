@@ -10,19 +10,24 @@ namespace quiver;
 
 use quiver\http\http_request;
 use quiver\http\http_response;
+use quiver\http\http_router;
 
 class controller
 {
-	protected $http_request;
-	protected $http_response;
-	protected $parameters_path;
-	protected $parameters_query;
+	protected app $app;
+	protected array $parameters_path;
 	
-	public function __construct(http_request $http_request, array $parameters_path, array $parameters_query)
+	public function __construct(app $app, array $parameters_path = [])
 	{
-		$this->http_request = $http_request;
-		$this->http_response = new http_response();
+		$this->app = $app;
 		$this->parameters_path = $parameters_path;
-		$this->parameters_query = $parameters_query;
+	}
+
+	public function parameter_path(string $key): string
+	{
+		if ( array_key_exists($key, $this->parameters_path) )
+			return $this->parameters_path[$key];
+
+		return '';
 	}
 }

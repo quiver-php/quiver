@@ -15,44 +15,44 @@ class http_request extends http_message
 	private http_method $method = http_method::GET;
 	private string $uri = '';
 	private array $parameters_query = [];
-	
+
 	public function __construct(http_method $method = http_method::GET, string $uri = '')
 	{
 		$this->set_method($method);
 		$this->set_uri($uri);
 	}
-	
+
 	public function get_method(): http_method
 	{
 		return $this->method;
 	}
-	
+
 	public function set_method(http_method $method = http_method::GET)
 	{
 		$this->method = $method;
 	}
-	
+
 	public function get_uri(): string
 	{
 		return $this->uri;
 	}
-	
+
 	public function set_uri(string $uri)
 	{
 		$this->uri = $uri;
 	}
-	
+
 	public function get_uri_canonical(): string
 	{
 		// Get the URI and remove the query string
 		$uri = parse_url( $this->get_uri(), PHP_URL_PATH );
-		
+
 		// Remove leading and trailing slashes
 		$uri_canonical = trim($uri, '/');
-		
+
 		// Convert the URI to lowercase
 		$uri_canonical = strtolower($uri_canonical);
-		
+
 		return $uri_canonical;
 	}
 
@@ -81,17 +81,23 @@ class http_request extends http_message
 		// Get and set the headers
 		foreach ( $this->get_request_headers() as $name => $value )
 			$this->add_header($name, $value);
-		
+
 		// Get and set the body
 		$this->set_body( file_get_contents('php://input') );
-		
+
 		// Get and set the request method
 		$this->set_method( http_method::from( $_SERVER['REQUEST_METHOD'] ) );
-		
+
 		// Get and set the request URI
 		$this->set_uri( $_SERVER['REQUEST_URI'] );
+
+		// Get all the query parameters
+		$parameters_query_string = parse_url( $this->get_uri(), PHP_URL_QUERY );
+
+		if ($parameters_query_string !== null)
+			parse_str($parameters_query_string, $this->parameters_query);
 	}
-	
+
 	private function get_request_headers()
 	{
 		$headers = array();
@@ -100,37 +106,45 @@ class http_request extends http_message
 			'CONTENT_TYPE',
 			'CONTENT_LENGTH'
 		);
-		
+
 		$headers_to_uppercase = array(
 			'TE',
 			'DNT'
 		);
-		
+
 		foreach ($_SERVER as $name => $value)
 		{
 			$http_prefix = strpos($name, 'HTTP_');
-			
+
 			// Example: HTTP_ACCEPT_ENCODING -> Accept-Encoding
 			if ( $http_prefix !== false || in_array($name, $headers_to_include) )
 			{
 				$name = str_replace('_', '-', $name);
-				
+
 				// Remove HTTP prefix, if there is one
 				if ($http_prefix !== false)
 				{
 					$name = substr($name, 5);
 				}
-				
+
 				// Apply appropriate casing
 				if ( !in_array($name, $headers_to_uppercase) )
 				{
 					$name = ucwords( strtolower($name), '-' );
 				}
-				
+
 				$headers[$name] = $value;
 			}
 		}
-		
+
 		return $headers;
+	}
+
+	public function parameter_query(string $key): string
+	{
+		if ( array_key_exists($key, $this->parameters_query) )
+			return $this->parameters_query[$key];
+
+		return '';
 	}
 }

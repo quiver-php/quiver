@@ -3,7 +3,7 @@
 // ============================================================
 // Controller
 // Designed and developed by Daniel Carvalho
-// Copyright (c) Daniel Carvalho - http://danielcarvalho.com/
+// Copyright (c) Daniel Carvalho - https://danielcarvalho.com/
 // ============================================================
 
 namespace quiver;

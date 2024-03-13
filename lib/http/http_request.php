@@ -55,7 +55,27 @@ class http_request extends http_message
 		
 		return $uri_canonical;
 	}
-	
+
+	public function get_uri_absolute(string $host = '', ?string $uri = null): string
+	{
+		// Is an HTTPS server?
+		$is_https = !empty( $_SERVER['HTTPS'] );
+
+		// Is an HTTPS server behind a reverse proxy?
+		$is_https_forwarded = !empty( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https';
+
+		$protocol = $is_https || $is_https_forwarded ? 'https' : 'http';
+
+		// HTTP_HOST is spoofable and therefore unreliable
+		if ( empty($host) )
+			$host = $_SERVER['HTTP_HOST'];
+
+		if ($uri === null)
+			$uri = $this->get_uri_canonical();
+
+		return "$protocol://$host/$uri";
+	}
+
 	public function fetch()
 	{
 		// Get and set the headers

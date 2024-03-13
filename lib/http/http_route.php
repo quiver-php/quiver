@@ -29,7 +29,7 @@ class http_route extends http_request
 		$this->set_controller_method($controller_method);
 	}
 	
-	public function get_controller()
+	public function get_controller(): string
 	{
 		return $this->controller;
 	}
@@ -39,7 +39,7 @@ class http_route extends http_request
 		$this->controller = $controller;
 	}
 	
-	public function get_controller_method()
+	public function get_controller_method(): string
 	{
 		return $this->controller_method;
 	}

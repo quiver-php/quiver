@@ -15,7 +15,7 @@ class http_route extends http_request
 	private $controller;
 	private $controller_method;
 	
-	public function __construct(string $method, string $uri, string $controller, string $controller_method)
+	public function __construct(http_method $method, string $uri, string $controller, string $controller_method = 'index')
 	{
 		parent::__construct($method, $uri);
 		
@@ -44,7 +44,7 @@ class http_route extends http_request
 		return $this->controller_method;
 	}
 	
-	public function set_controller_method(string $controller_method)
+	public function set_controller_method(string $controller_method = 'index')
 	{
 		$this->controller_method = $controller_method;
 	}

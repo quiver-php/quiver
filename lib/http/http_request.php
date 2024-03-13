@@ -12,46 +12,27 @@ use quiver\http\http_message;
 
 class http_request extends http_message
 {
-	private $methods = array(
+	private http_method $method = http_method::GET;
+	private string $uri = '';
+	private array $parameters_query = [];
 	
-		'OPTIONS' => 'OPTIONS',
-		'GET' => 'GET',
-		'HEAD' => 'HEAD',
-		'POST' => 'POST',
-		'PUT' => 'PUT',
-		'DELETE' => 'DELETE',
-		'TRACE' => 'TRACE',
-		'CONNECT' => 'CONNECT'
-		
-	);	
-	
-	private $method = 'GET';
-	private $uri = '';
-	
-	public function __construct(string $method = 'GET', string $uri = '')
+	public function __construct(http_method $method = http_method::GET, string $uri = '')
 	{
 		$this->set_method($method);
 		$this->set_uri($uri);
 	}
 	
-	public function get_method()
+	public function get_method(): http_method
 	{
 		return $this->method;
 	}
 	
-	public function set_method(string $method = 'GET')
+	public function set_method(http_method $method = http_method::GET)
 	{
-		if ( array_key_exists($method, $this->methods) )
-		{
-			$this->method = $method;
-		}
-		else
-		{
-			throw new \Exception('Invalid HTTP method');
-		}
+		$this->method = $method;
 	}
 	
-	public function get_uri()
+	public function get_uri(): string
 	{
 		return $this->uri;
 	}
@@ -61,7 +42,7 @@ class http_request extends http_message
 		$this->uri = $uri;
 	}
 	
-	public function get_uri_canonical()
+	public function get_uri_canonical(): string
 	{
 		// Get the URI and remove the query string
 		$uri = parse_url( $this->get_uri(), PHP_URL_PATH );
@@ -76,18 +57,16 @@ class http_request extends http_message
 	}
 	
 	public function fetch()
-	{	
+	{
 		// Get and set the headers
 		foreach ( $this->get_request_headers() as $name => $value )
-		{
 			$this->add_header($name, $value);
-		}
 		
 		// Get and set the body
 		$this->set_body( file_get_contents('php://input') );
 		
 		// Get and set the request method
-		$this->set_method( $_SERVER['REQUEST_METHOD'] );
+		$this->set_method( http_method::from( $_SERVER['REQUEST_METHOD'] ) );
 		
 		// Get and set the request URI
 		$this->set_uri( $_SERVER['REQUEST_URI'] );

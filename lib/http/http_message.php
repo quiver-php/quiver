@@ -12,8 +12,8 @@ class http_message
 {
 	const HTTP_VERSION = 'HTTP/1.1';
 	
-	private $headers = array();
-	private $body = '';
+	private array $headers = [];
+	private string $body = '';
 	
 	public function get_headers()
 	{
@@ -26,7 +26,7 @@ class http_message
 		$this->headers[$name] = $value;
 	}
 	
-	public function get_body()
+	public function get_body(): string
 	{
 		return $this->body;
 	}

@@ -51,7 +51,7 @@ class http_route extends http_request
 	
 	public function get_uri_pattern()
 	{		
-		$uri_regex = '#^' . preg_replace( '#[:]([\w]+)#', '(?<\1>[\w\d]+)', $this->get_uri_canonical() ) . '$#';
+		$uri_regex = '#^' . preg_replace( '#[:]([\w]+)#', '(?<\1>[\w\d-]+)', $this->get_uri_canonical() ) . '$#';
 		
 		return $uri_regex;
 	}
@@ -64,7 +64,7 @@ class http_route extends http_request
 	{
 		// Check if the URI is a syntactically correct route URI
 		// $uri_match = preg_match( '#^((^|\/)[:]?[\w]+)+$#', $this->get_uri_canonical() );
-		$uri_match = preg_match( '#^((^|\/)[:]?[\w.]+|\z)+$#', $this->get_uri_canonical() ); // \z allows for nothing so we don't have to do a string empty or worry about the special case
+		$uri_match = preg_match( '#^((^|\/)[:]?[\w.-]+|\z)+$#', $this->get_uri_canonical() ); // \z allows for nothing so we don't have to do a string empty or worry about the special case
 
 		return $uri_match;
 	}

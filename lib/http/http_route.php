@@ -14,50 +14,50 @@ class http_route extends http_request
 {
 	private $controller;
 	private $controller_method;
-	
+
 	public function __construct(http_method $method, string $uri, string $controller, string $controller_method = 'index')
 	{
 		parent::__construct($method, $uri);
-		
+
 		// Check if the URI is a syntactically correct route URI
 		if( $this->uri_validate() != 1 ) // 1 for match, 0 for no match, false on error
 		{
 			throw new \Exception('Invalid route URI');
 		}
-		
+
 		$this->set_controller($controller);
 		$this->set_controller_method($controller_method);
 	}
-	
+
 	public function get_controller(): string
 	{
 		return $this->controller;
 	}
-	
+
 	public function set_controller(string $controller)
 	{
 		$this->controller = $controller;
 	}
-	
+
 	public function get_controller_method(): string
 	{
 		return $this->controller_method;
 	}
-	
+
 	public function set_controller_method(string $controller_method = 'index')
 	{
 		$this->controller_method = $controller_method;
 	}
-	
+
 	public function get_uri_pattern()
-	{		
+	{
 		$uri_regex = '#^' . preg_replace( '#[:]([\w]+)#', '(?<\1>[\w\d-]+)', $this->get_uri_canonical() ) . '$#';
-		
+
 		return $uri_regex;
 	}
-	
+
 	//
-	// Need to fix regex to allow just '/' and '' path. Otherwise perfect. 
+	// Need to fix regex to allow just '/' and '' path. Otherwise perfect.
 	// ':test' should not work? NEED to write a test for this.
 	//
 	private function uri_validate()

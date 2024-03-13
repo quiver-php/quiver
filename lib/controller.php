@@ -16,7 +16,7 @@ class controller
 {
 	protected app $app;
 	protected array $parameters_path;
-	
+
 	public function __construct(app $app, array $parameters_path = [])
 	{
 		$this->app = $app;

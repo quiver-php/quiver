@@ -52,7 +52,7 @@ class html_document
 	private $style = [];
 	private $script = [];
 	private $blocks = [];
-	
+
 	public function __construct(string $title = '')
 	{
 		$this->set_title($title);
@@ -97,7 +97,7 @@ class html_document
 
 			$is_first = false;
 		}
-		
+
 		return $html;
 	}
 
@@ -108,7 +108,7 @@ class html_document
 			'content' => $content,
 			'comment' => $comment
 		];
-		
+
 		array_push($this->meta, $meta);
 	}
 
@@ -119,7 +119,7 @@ class html_document
 			'content' => $content,
 			'comment' => $comment
 		];
-		
+
 		array_push($this->meta, $meta);
 	}
 
@@ -130,7 +130,7 @@ class html_document
 		$html = '';
 
 		$is_first = true;
-		
+
 		foreach ($this->link as $link)
 		{
 			// Add the comment header and then remove it from the array so that
@@ -146,7 +146,7 @@ class html_document
 
 			$is_first = false;
 		}
-		
+
 		return $html;
 	}
 
@@ -206,14 +206,14 @@ class html_document
 			'attributes' => $attributes,
 			'comment' => $comment
 		];
-		
+
 		array_push($this->javascript, $javascript);
 	}
 
 	public function get_style(): string
 	{
 		$html = '';
-		
+
 		if ( !empty($this->style) )
 		{
 			foreach ($this->style as $style)
@@ -221,19 +221,19 @@ class html_document
 
 			$html = '<style type="text/css">' . $html . '</style>';
 		}
-		
+
 		return $html;
 	}
 
 	public function add_style(string $style)
-	{		
+	{
 		array_push($this->style, $style);
 	}
 
 	public function get_script(): string
 	{
 		$html = '';
-		
+
 		if ( !empty($this->script) )
 		{
 			foreach ($this->script as $script)
@@ -241,12 +241,12 @@ class html_document
 
 			$html = '<script type="text/javascript">' . $html . '</script>';
 		}
-		
+
 		return $html;
 	}
 
 	public function add_script(string $script)
-	{		
+	{
 		array_push($this->script, $script);
 	}
 
@@ -339,7 +339,7 @@ class html_document
 			{
 				if ( $block['parent_element'] == $parent_element )
 				{
-					$html .= $block['content'];	
+					$html .= $block['content'];
 				}
 			}
 		}
@@ -362,7 +362,7 @@ class html_document
 	private function block_exists(string $block_name)
 	{
 		$exists = array_key_exists($block_name, $this->blocks);
-		
+
 		return $exists;
 	}
 
@@ -417,7 +417,7 @@ class html_document
 	public function render(string $block_name = ''): string
 	{
 		$html = '';
-		
+
 		if ( empty($block_name) )
 		{
 			$html_inner = [
@@ -433,7 +433,7 @@ class html_document
 		{
 			$html = $this->get_block_content($block_name);
 		}
-		
+
 		return $html;
 	}
 

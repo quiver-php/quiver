@@ -3,7 +3,7 @@
 // ============================================================
 // HTTP Router
 // Designed and developed by Daniel Carvalho
-// Copyright (c) Daniel Carvalho - http://danielcarvalho.com/
+// Copyright (c) Daniel Carvalho - https://danielcarvalho.com/
 // ============================================================
 
 namespace quiver\http;
@@ -11,13 +11,20 @@ namespace quiver\http;
 use quiver\http\http_request;
 use quiver\http\http_response;
 use quiver\http\http_route;
+use quiver\app;
 
 class http_router
 {
-	private $root_directory = '';
-	private $routes = array();
+	private app $app;
+	private string $root_directory = '';
+	private array $routes = [];
 
-	public function get_root_directory()
+	public function __construct(app $app)
+	{
+		$this->app = $app;
+	}
+
+	public function get_root_directory(): string
 	{
 		return $this->root_directory;
 	}
@@ -40,10 +47,10 @@ class http_router
 			{
 				$uri_match = false;
 
-				/* 
+				/*
 				 * Check if there is a URI match
 				 *
-				 * It's necessary to have two different URI checking mechanisms like this because when the 
+				 * It's necessary to have two different URI checking mechanisms like this because when the
 				 * router is getting setup and its routes are being added, you want to do string literal comparison
 				 * and not pattern matching, and the opposite is true for when the router is servicing an actual request
 				 */
@@ -68,10 +75,10 @@ class http_router
 				}
 			}
 		}
-		
+
 		return $http_route;
 	}
-	
+
 	public function add_route(http_route $http_route)
 	{
 		if ( $this->get_route($http_route) === null )
@@ -83,60 +90,43 @@ class http_router
 			throw new \Exception('Duplicate route exists');
 		}
 	}
-	
-	public function service(http_request $http_request)
+
+	public function service(http_request $http_request): http_response
 	{
-		$http_response = null;
-		
+		// Remove the root directory from HTTP request URI
 		if ($this->root_directory)
-		{
-			// Remove the root directory from HTTP request URI
 			$http_request->set_uri( str_replace( $this->root_directory, '', urldecode( $http_request->get_uri_canonical() ) ) );
-		}
 
 		// Get the matching route, if there is one
 		$route_selected = $this->get_route($http_request);
 
-		if ($route_selected !== null)
-		{
-			$parameters_path = array();
-			$parameters_query = array();
+		if ($route_selected === null)
+			return new http_response(http_status::NOT_FOUND);
 
-			// Get all the path parameters
-			preg_match( $route_selected->get_uri_pattern(), $http_request->get_uri_canonical(), $parameters_path );
-			
-			// Filter the path parameters array. Remove clutter from the array and only leave the clean, named key value pairs
-			foreach ($parameters_path as $parameters_path_key => $parameters_path_value)
-			{
-				if ( is_numeric($parameters_path_key) )
-				{
-					unset( $parameters_path[$parameters_path_key] );
-				}
-			}
-			
-			// Get all the query parameters
-			$parameters_query_string = parse_url( $http_request->get_uri(), PHP_URL_QUERY );
-			parse_str($parameters_query_string, $parameters_query);
+		$parameters_path = [];
 
-			// Get the controller name and the controller method from the selected route
-			$controller_name = $route_selected->get_controller();
-			$controller_method = $route_selected->get_controller_method();
-			
-			// Initialize the controller
-			$controller = new $controller_name($http_request, $parameters_path, $parameters_query);
-			
-			// Run the controller method and get the HTTP response, or null in case of failure
-			$http_response = $controller->$controller_method();
-			
-			if ($http_response === null)
-			{
-				$http_response = new http_response(500);
-			}
-		}
-		else
+		// Get all the path parameters
+		preg_match( $route_selected->get_uri_pattern(), $http_request->get_uri_canonical(), $parameters_path );
+
+		// Filter the path parameters array. Remove clutter from the array and only leave the clean, named key value pairs
+		foreach ($parameters_path as $parameters_path_key => $parameters_path_value)
 		{
-			$http_response = new http_response(404);
+			if ( is_numeric($parameters_path_key) )
+				unset( $parameters_path[$parameters_path_key] );
 		}
+
+		// Get the controller name and the controller method from the selected route
+		$controller_name = $route_selected->get_controller();
+		$controller_method = $route_selected->get_controller_method();
+
+		// Initialize the controller
+		$controller = new $controller_name($this->app, $parameters_path);
+
+		// Run the controller method and get the HTTP response, or null in case of failure
+		$http_response = $controller->$controller_method($http_request);
+
+		if ($http_response === null)
+			return new http_response(http_status::INTERNAL_SERVER_ERROR);
 
 		return $http_response;
 	}

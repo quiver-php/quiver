@@ -3,7 +3,7 @@
 // ============================================================
 // HTTP Response
 // Designed and developed by Daniel Carvalho
-// Copyright (c) Daniel Carvalho - http://danielcarvalho.com/
+// Copyright (c) Daniel Carvalho - https://danielcarvalho.com/
 // ============================================================
 
 namespace quiver\http;
@@ -11,9 +11,9 @@ namespace quiver\http;
 use quiver\http\http_message;
 
 class http_response extends http_message
-{	
-	private $status_code_definitions = array(
-		
+{
+	private array $status_code_definitions = [
+
 		// Informational 1xx
 		100 => 'Continue',
 		101 => 'Switching Protocols',
@@ -65,54 +65,52 @@ class http_response extends http_message
 		504 => 'Gateway Timeout',
 		505 => 'HTTP Version Not Supported'
 
-	);
-	
-	private $status_code = 200;
-	
-	public function __construct(int $status_code = 200, string $body = '')
+	];
+
+	private http_status $status_code = http_status::OK;
+
+	public function __construct(http_status $status_code = http_status::OK, string $body = '')
 	{
 		$this->set_status_code($status_code);
 		$this->set_body($body);
 	}
 
-	public function get_status_code()
+	public function get_status_code(): http_status
 	{
 		return $this->status_code;
 	}
-	
-	public function set_status_code(int $status_code = 200)
+
+	public function set_status_code(http_status $status_code = http_status::OK)
 	{
-		if ( array_key_exists($status_code, $this->status_code_definitions) )
-		{
-			$this->status_code = $status_code;
-		}
-		else
-		{
-			throw new \Exception('Invalid HTTP status code');
-		}
+		$this->status_code = $status_code;
 	}
-	
-	public function get_status_code_definition()
+
+	public function get_status_code_definition(): string
 	{
-		return $this->status_code_definitions[ $this->get_status_code() ];
+		return $this->status_code_definitions[ $this->get_status_code()->value ];
 	}
-	
+
+	public function is_error(): bool
+	{
+		$status_code = $this->get_status_code();
+
+		$first_digit = substr($status_code->value, 0, 1);
+
+		return $first_digit === '4' || $first_digit === '5';
+	}
+
 	public function send()
 	{
-		header( self::HTTP_VERSION . ' ' . $this->get_status_code() . ' ' . $this->get_status_code_definition() );
+		header( self::HTTP_VERSION . ' ' . $this->get_status_code()->value . ' ' . $this->get_status_code_definition() );
 
 		$body = $this->get_body();
-		
+
 		if ( !empty($body) )
-		{
 			$this->add_header( 'Content-Length', (string)strlen($body) );
-		}
-		
+
 		foreach ( $this->get_headers() as $header_name => $header_value )
-		{
-			header($header_name . ': ' . $header_value);
-		}
-		
+			header("$header_name : $header_value");
+
 		echo $body;
 	}
 }

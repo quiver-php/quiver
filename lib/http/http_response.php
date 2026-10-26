@@ -105,7 +105,7 @@ class http_response extends http_message
 			$this->add_header( 'Content-Length', (string)strlen($body) );
 
 		foreach ( $this->get_headers() as $header_name => $header_value )
-			header("$header_name : $header_value");
+			header("$header_name: $header_value");
 
 		echo $body;
 	}

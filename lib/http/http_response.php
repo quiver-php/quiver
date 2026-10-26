@@ -87,21 +87,19 @@ class http_response extends http_message
 
 	public function get_status_code_definition(): string
 	{
-		return $this->status_code_definitions[ $this->get_status_code()->value ];
+		return $this->status_code_definitions[$this->status_code->value];
 	}
 
 	public function is_error(): bool
 	{
-		$status_code = $this->get_status_code();
-
-		$first_digit = substr($status_code->value, 0, 1);
+		$first_digit = substr($this->status_code->value, 0, 1);
 
 		return $first_digit === '4' || $first_digit === '5';
 	}
 
 	public function send()
 	{
-		header( self::HTTP_VERSION . ' ' . $this->get_status_code()->value . ' ' . $this->get_status_code_definition() );
+		header( self::HTTP_VERSION . ' ' . $this->status_code->value . ' ' . $this->get_status_code_definition() );
 
 		$body = $this->get_body();
 

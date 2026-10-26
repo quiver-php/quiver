@@ -97,7 +97,7 @@ class http_response extends http_message
 
 	public function send()
 	{
-		header( self::HTTP_VERSION . ' ' . $this->status_code->value . ' ' . $this->get_status_code_definition() );
+		http_response_code($this->status_code->value);
 
 		$body = $this->get_body();
 

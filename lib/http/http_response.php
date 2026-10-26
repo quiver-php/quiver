@@ -92,9 +92,7 @@ class http_response extends http_message
 
 	public function is_error(): bool
 	{
-		$first_digit = substr($this->status_code->value, 0, 1);
-
-		return $first_digit === '4' || $first_digit === '5';
+		return $this->status_code->value >= 400;
 	}
 
 	public function send()

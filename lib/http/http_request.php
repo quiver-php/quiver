@@ -45,7 +45,7 @@ class http_request extends http_message
 	public function get_uri_canonical(): string
 	{
 		// Get the URI and remove the query string
-		$uri = parse_url( $this->get_uri(), PHP_URL_PATH );
+		$uri = parse_url($this->uri, PHP_URL_PATH);
 
 		// Remove leading and trailing slashes
 		$uri_canonical = trim($uri, '/');
@@ -92,7 +92,7 @@ class http_request extends http_message
 		$this->set_uri( $_SERVER['REQUEST_URI'] );
 
 		// Get all the query parameters
-		$parameters_query_string = parse_url( $this->get_uri(), PHP_URL_QUERY );
+		$parameters_query_string = parse_url($this->uri, PHP_URL_QUERY);
 
 		if ($parameters_query_string !== null)
 			parse_str($parameters_query_string, $this->parameters_query);

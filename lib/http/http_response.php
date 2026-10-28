@@ -87,21 +87,17 @@ class http_response extends http_message
 
 	public function get_status_code_definition(): string
 	{
-		return $this->status_code_definitions[ $this->get_status_code()->value ];
+		return $this->status_code_definitions[$this->status_code->value];
 	}
 
 	public function is_error(): bool
 	{
-		$status_code = $this->get_status_code();
-
-		$first_digit = substr($status_code->value, 0, 1);
-
-		return $first_digit === '4' || $first_digit === '5';
+		return $this->status_code->value >= 400;
 	}
 
 	public function send()
 	{
-		header( self::HTTP_VERSION . ' ' . $this->get_status_code()->value . ' ' . $this->get_status_code_definition() );
+		http_response_code($this->status_code->value);
 
 		$body = $this->get_body();
 
@@ -109,7 +105,7 @@ class http_response extends http_message
 			$this->add_header( 'Content-Length', (string)strlen($body) );
 
 		foreach ( $this->get_headers() as $header_name => $header_value )
-			header("$header_name : $header_value");
+			header("$header_name: $header_value");
 
 		echo $body;
 	}

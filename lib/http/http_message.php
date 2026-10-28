@@ -10,8 +10,6 @@ namespace quiver\http;
 
 class http_message
 {
-	const HTTP_VERSION = 'HTTP/1.1';
-
 	private array $headers = [];
 	private string $body = '';
 

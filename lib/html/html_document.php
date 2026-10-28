@@ -24,21 +24,21 @@ class html_document
 {
 	private const TEMPLATE_HTML_DOCUMENT = <<<END
 			<!doctype html>
-			
+
 			<html lang=":lang">
-			
-			<head>					
+
+			<head>
 				<meta charset="utf-8">
 
 				<title>:title</title>
-				
+
 				:head
 			</head>
-			
+
 			<body>
 			:body
-			</body>			
-			
+			</body>
+
 			</html>
 			END;
 
@@ -104,7 +104,7 @@ class html_document
 	public function add_meta(string $name, string $content, ?string $comment = null)
 	{
 		$meta = [
-			'name' => $name,
+			'name'    => $name,
 			'content' => $content,
 			'comment' => $comment
 		];
@@ -116,8 +116,8 @@ class html_document
 	{
 		$meta = [
 			'property' => $property,
-			'content' => $content,
-			'comment' => $comment
+			'content'  => $content,
+			'comment'  => $comment
 		];
 
 		array_push($this->meta, $meta);
@@ -394,11 +394,11 @@ class html_document
 	{
 		// Collate all the head elements
 		$elements = [
-			':meta' => $this->get_meta(),
-			':link' => $this->get_link(),
+			':meta'       => $this->get_meta(),
+			':link'       => $this->get_link(),
 			':javascript' => $this->get_javascript(),
-			':style' => $this->get_style(),
-			':script' => $this->get_script()
+			':style'      => $this->get_style(),
+			':script'     => $this->get_script()
 		];
 
 		$html = '';
@@ -421,10 +421,10 @@ class html_document
 		if ( empty($block_name) )
 		{
 			$html_inner = [
-				':lang' => $this->get_lang(),
+				':lang'  => $this->get_lang(),
 				':title' => $this->get_title(),
-				':head' => $this->get_head(),
-				':body' => $this->get_block_content('', 'body')
+				':head'  => $this->get_head(),
+				':body'  => $this->get_block_content('', 'body')
 			];
 
 			$html = strtr(self::TEMPLATE_HTML_DOCUMENT, $html_inner);
